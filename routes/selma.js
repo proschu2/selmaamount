@@ -24,11 +24,11 @@ router.get('/', async function(req, res, next) {
     
     await page.waitForSelector('section #user_email')
     await page.click('section #user_email')
-    await page.type('section #user_email','sanzio@sanziomonti.xyz')
+    await page.type('section #user_email',process.env.EMAIL)
     
     await page.waitForSelector('section #user_password')
     await page.click('section #user_password')
-    await page.type('section #user_password','G%K7hCaePk9^9BJAVrj')
+    await page.type('section #user_password',process.env.PASSWORD)
   
     await page.waitForSelector('section > .row > #new_user > .actions > .button')
     await page.click('section > .row > #new_user > .actions > .button')
@@ -37,13 +37,13 @@ router.get('/', async function(req, res, next) {
     
     await page.waitForSelector('.my-planet-stats > .my-planet-hero-top-row > .column > .change-figures > .change-figure:nth-child(2)')
     await page.click('.my-planet-stats > .my-planet-hero-top-row > .column > .change-figures > .change-figure:nth-child(2)')
-    let element = await page.$('.my-planet-stats > .my-planet-hero-top-row > .column > .change-figures > .change-figure:nth-child(2)')
-    const amount = (await page.evaluate(element => element.textContent, element))
+    let element = await page.$('.my-planet-stats > .my-planet-hero-top-row > .column > .change-figures > .change-figure:nth-child(2)');
+    const amount = (await page.evaluate(element => element.textContent, element)).replace('+','').replace(' CHF','');
 
     await page.waitForSelector('.my-planet-stats > .my-planet-hero-top-row > .column > .change-figures > .change-figure:nth-child(4)')
     await page.click('.my-planet-stats > .my-planet-hero-top-row > .column > .change-figures > .change-figure:nth-child(4)')
-    element = await page.$('.my-planet-stats > .my-planet-hero-top-row > .column > .change-figures > .change-figure:nth-child(4)')
-    const perc = (await page.evaluate(element => element.textContent, element))
+    element = await page.$('.my-planet-stats > .my-planet-hero-top-row > .column > .change-figures > .change-figure:nth-child(4)');
+    const perc = (await page.evaluate(element => element.textContent, element));
     await browser.close()
 
     return `${amount} | ${perc}`
