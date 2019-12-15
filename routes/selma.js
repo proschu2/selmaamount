@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 const puppeteer = require('puppeteer');
 
-/* GET users listing. */
 router.get('/', async function(req, res, next) {
   res.send(await (async () => {
     const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'] })
