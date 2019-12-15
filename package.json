@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "add-row": "node addrow.js"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -13,6 +14,11 @@
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
     "morgan": "~1.9.1",
+    "pg": "^7.14.0",
     "puppeteer": "^2.0.0"
+  },
+  "devDependencies": {
+    "eslint-plugin-prettier": "^3.1.2",
+    "prettier": "^1.19.1"
   }
 }
