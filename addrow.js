@@ -1,2 +1,7 @@
-const https = require('https');
-https.get('https://selmaamount.herokuapps.com/add')
+const http = require('http');
+var options = {
+    host: 'selmaamount.herokuapp.com',
+    path: '/add',
+    method: 'GET'
+};
+http.get(options)
