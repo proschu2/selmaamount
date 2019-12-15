@@ -5,7 +5,7 @@ const puppeteer = require('puppeteer');
 /* GET users listing. */
 router.get('/', async function(req, res, next) {
   res.send(await (async () => {
-    const browser = await puppeteer.launch({ args: ['--no-sandbox'] })
+    const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'] })
     const page = await browser.newPage()
     
     const navigationPromise = page.waitForNavigation()
