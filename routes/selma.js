@@ -75,7 +75,7 @@ const selma = async () => {
 
 router.get('/', async function (req, res, ) {
   const selmaAmount = await selma();
-  res.send(`${selmaAmount[0]} | ${selmaAmount[2]} | ${selmaAmount[1]}`);
+  res.send(`${selmaAmount[0]} | ${selmaAmount[2]} | ${selmaAmount[1]}<iframe style="border: 2px solid #ebebeb; height: 600px; width: 100%;" src="https://vizydrop.com/shared/drop/5e00b0fa80130645a2c5b7cc?authkey=5786f6575f01959f38e2" ></iframe>`);
 });
 
 router.get('/add', async function (req, res, next) {
