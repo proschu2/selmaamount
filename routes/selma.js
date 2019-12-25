@@ -82,7 +82,12 @@ router.get('/', async function (req, res, ) {
 router.get('/add', async function (req, res, next) {
   const selmaAmount = await selma();
   try {
-    const client = await pool.connect()
+    const client = await pool.connect();
+    const previousValue = await client.query('select change from selma order by id DESC limit 1').then(res => res.rows[0]).catch(err => console.log(err));
+    if (previousValue.change === selmaAmount[2]) {
+      console.log('no need to add as still the same');
+      res.sendStatus(200);
+    }
     const result = await client.query(`INSERT INTO SELMA(date,amount,percentage,change) VALUES (now(),${Number(selmaAmount[0])},${Number(selmaAmount[1])}, ${Number(selmaAmount[2])});`);
     const results = {
       'results': (result) ? result.rows : null
@@ -93,4 +98,11 @@ router.get('/add', async function (req, res, next) {
     res.send("Error " + err);
   }
 });
+
+router.get('/test', async function (req,res,next) {
+  const selmaAmount = await selma()
+  const client = await pool.connect()//.then(res => console.log('connected', red)).catch(e => console.error(e))
+    const previousValue = await client.query('select change from selma order by id DESC limit 1').then(res => res.rows[0]).catch(err => console.log(err));
+    console.log(previousValue.change);
+})
 module.exports = router;
