@@ -21,7 +21,7 @@ const selma = async () => {
 
   await page.setViewport({
     width: 1707,
-    height: 822,
+    height: 823,
   });
 
   await page.waitForSelector(
