@@ -98,7 +98,7 @@ const selma = async () => {
   var perc = await page.evaluate(element => element.textContent, element);
   perc = perc.replace('+', '');
   perc = perc.replace('%', '');
-  change = change.replace(' ', '');
+  perc = perc.replace(' ', '');
   console.log('perc is', perc);
   /*
   
