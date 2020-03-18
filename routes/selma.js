@@ -9,6 +9,7 @@ const pool = new Pool({
 });
 
 const selma = async () => {
+  await puppeteer.launch({});
   const browser = await puppeteer.launch({
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
   });
@@ -53,45 +54,62 @@ const selma = async () => {
   await navigationPromise;
 
   await page.waitForSelector(
-    '.my-planet-hero > .my-planet-stats > .my-planet-hero-top-row > .column > .stat-figure'
-  );
-  await page.click(
-    '.my-planet-hero > .my-planet-stats > .my-planet-hero-top-row > .column > .stat-figure'
+    'div.active-investments > div.account-card-contents div.account-card-content-row-value'
   );
   let element = await page.$(
-    '.my-planet-hero > .my-planet-stats > .my-planet-hero-top-row > .column > .stat-figure'
+    'div.active-investments > div.account-card-contents div.account-card-content-row-value'
   );
   var amount = await page.evaluate(element => element.textContent, element);
   amount = amount.replace('CHF', '');
   amount = amount.replace("'", '');
   amount = amount.replace('’', '');
+  amount = amount.replace(' ', '');
+  console.log('amount is', amount);
 
-  await page.waitForSelector(
-    '.my-planet-stats > .my-planet-hero-top-row > .column > .change-figures > .change-figure:nth-child(2)'
-  );
-  await page.click(
-    '.my-planet-stats > .my-planet-hero-top-row > .column > .change-figures > .change-figure:nth-child(2)'
-  );
-  element = await page.$(
-    '.my-planet-stats > .my-planet-hero-top-row > .column > .change-figures > .change-figure:nth-child(2)'
-  );
+  /*
+  await page.waitForSelector('.my-planet-hero > .my-planet-stats > .my-planet-hero-top-row > .column > .stat-figure')
+  await page.click('.my-planet-hero > .my-planet-stats > .my-planet-hero-top-row > .column > .stat-figure')
+  let element = await page.$('.my-planet-hero > .my-planet-stats > .my-planet-hero-top-row > .column > .stat-figure');
+  var amount = await page.evaluate(element => element.textContent, element);
+  amount = amount.replace('CHF', '');
+  amount = amount.replace("'", '');
+  amount = amount.replace('’','');
+  */
+
+  await page.waitForSelector('span.change-figure');
+  element = await page.$('span.change-figure');
   var change = await page.evaluate(element => element.textContent, element);
   change = change.replace('+', '');
   change = change.replace('CHF', '');
+  change = change.replace(' ', '');
+  console.log('change is', change);
+  /*
+  await page.waitForSelector('.my-planet-stats > .my-planet-hero-top-row > .column > .change-figures > .change-figure:nth-child(2)')
+  await page.click('.my-planet-stats > .my-planet-hero-top-row > .column > .change-figures > .change-figure:nth-child(2)')
+  element = await page.$('.my-planet-stats > .my-planet-hero-top-row > .column > .change-figures > .change-figure:nth-child(2)');
+>>>>>>> f14762fd8d8fcc9625d5475c9182a37c275e47f6
+  var change = await page.evaluate(element => element.textContent, element);
+  change = change.replace('+', '');
+  change = change.replace('CHF', '');
+  */
 
-  await page.waitForSelector(
-    '.my-planet-stats > .my-planet-hero-top-row > .column > .change-figures > .change-figure:nth-child(4)'
-  );
-  await page.click(
-    '.my-planet-stats > .my-planet-hero-top-row > .column > .change-figures > .change-figure:nth-child(4)'
-  );
-  element = await page.$(
-    '.my-planet-stats > .my-planet-hero-top-row > .column > .change-figures > .change-figure:nth-child(4)'
-  );
+  await page.waitForSelector('span.change-figure.normal-weight');
+  element = await page.$('span.change-figure.normal-weight');
   var perc = await page.evaluate(element => element.textContent, element);
   perc = perc.replace('+', '');
   perc = perc.replace('%', '');
-  await browser.close();
+  change = change.replace(' ', '');
+  console.log('perc is', perc);
+  /*
+  
+  await page.waitForSelector('.my-planet-stats > .my-planet-hero-top-row > .column > .change-figures > .change-figure:nth-child(4)')
+  await page.click('.my-planet-stats > .my-planet-hero-top-row > .column > .change-figures > .change-figure:nth-child(4)')
+  element = await page.$('.my-planet-stats > .my-planet-hero-top-row > .column > .change-figures > .change-figure:nth-child(4)');
+  var perc = (await page.evaluate(element => element.textContent, element));
+  perc = perc.replace('+', '');
+  perc = perc.replace('%', '');
+  */
+  browser.close();
 
   return [amount.trim(), perc, change.trim()];
 };
